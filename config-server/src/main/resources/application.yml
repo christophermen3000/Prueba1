@@ -1,0 +1,12 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          default-label: master
+          uri: https://github.com/christophermen3000/Prueba1
+          search-paths: config-data/default
