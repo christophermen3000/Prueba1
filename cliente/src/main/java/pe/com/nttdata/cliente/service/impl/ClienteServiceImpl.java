@@ -3,6 +3,7 @@ package pe.com.nttdata.cliente.service.impl;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 //import org.springframework.web.client.RestTemplate;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -21,7 +22,7 @@ import pe.com.nttdata.clientequeues.rabbitmq.RabbitMQMessageProducer;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class ClienteServiceImpl implements IClienteService {
@@ -50,13 +51,24 @@ public class ClienteServiceImpl implements IClienteService {
                 ClienteCheckResponse.class,
                 clienteResponse.getId()
         );*/
+        return clienteResponse;
+    }
 
-        ClienteCheckResponse clienteCheckResponse = validarCliente(clienteResponse);
+    @CircuitBreaker(name = "validarclienteCB", fallbackMethod = "fallValidarclienteCB")
+    @Retry(name = "validarclienteRetry")
+    public String validarCliente(Cliente cliente) {
+
+        log.info("Fecha Ejecución validarCliente: " + new Date());
+        ClienteCheckResponse clienteCheckResponse = clienteCheckClient.validarCliente(cliente.getId());
 
         if (clienteCheckResponse.esEstafador()) {
             throw new IllegalStateException("Cliente es un estafador!!");
         }
 
+        return "OK";
+    }
+
+    public void registrarNotificacion(Cliente cliente) {
         NotificacionRequest notificacionRequest = new NotificacionRequest(
                 cliente.getId(),
                 cliente.getEmail(),
@@ -68,22 +80,10 @@ public class ClienteServiceImpl implements IClienteService {
                 "internal.exchange",
                 "internal.notification.routing-key"
         );
-
-        return clienteResponse;
     }
 
-    @CircuitBreaker(name = "validarclienteCB", fallbackMethod = "fallValidarclienteCB")
-    @Retry(name = "validarclienteRetry")
-    public ClienteCheckResponse validarCliente(Cliente clienteResponse) {
-        return clienteCheckClient.validarCliente(clienteResponse.getId());
-    }
-
-    public ClienteCheckResponse fallValidarclienteCB(Cliente clienteResponse, MethodArgumentNotValidException e) throws MethodArgumentNotValidException {
-        FieldError fieldError = new FieldError("validarcliente", "validarcliente","Servicio no disponible");
-        BindingResult result = new BeanPropertyBindingResult(null, null);
-        result.addError(fieldError);
-        MethodArgumentNotValidException exception = new MethodArgumentNotValidException(null, result);
-        throw exception;
+    public String fallValidarclienteCB(Cliente clienteResponse, Exception e) throws MethodArgumentNotValidException {
+        return "NO_OK";
     }
 
     public Cliente modificarCliente(ClienteRequest clienteRequest) {

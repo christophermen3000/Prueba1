@@ -63,5 +63,5 @@ resilience4j:
     instances:
       validarclienteRetry:
         registerHealthIndicator: true
-        maxRetryAttempts: 3
+        maxRetryAttempts: 5
         waitDuration: 5s
