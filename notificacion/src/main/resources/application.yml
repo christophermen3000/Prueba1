@@ -1,6 +1,8 @@
 spring:
   application:
     name: notificacion
+  config:
+    import: "optional:configserver:"
   cloud:
     config:
       enabled: true

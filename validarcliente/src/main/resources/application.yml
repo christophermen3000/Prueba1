@@ -1,6 +1,8 @@
 spring:
   application:
     name: validarcliente
+  config:
+    import: "optional:configserver:"
   cloud:
     config:
       enabled: true

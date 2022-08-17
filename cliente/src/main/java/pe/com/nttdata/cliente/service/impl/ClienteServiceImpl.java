@@ -1,8 +1,14 @@
 package pe.com.nttdata.cliente.service.impl;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 //import org.springframework.web.client.RestTemplate;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import pe.com.nttdata.cliente.controller.ClienteRequest;
 import pe.com.nttdata.cliente.dao.IClienteDao;
 import pe.com.nttdata.cliente.model.Cliente;
@@ -45,7 +51,7 @@ public class ClienteServiceImpl implements IClienteService {
                 clienteResponse.getId()
         );*/
 
-        ClienteCheckResponse clienteCheckResponse = clienteCheckClient.validarCliente(clienteResponse.getId());
+        ClienteCheckResponse clienteCheckResponse = validarCliente(clienteResponse);
 
         if (clienteCheckResponse.esEstafador()) {
             throw new IllegalStateException("Cliente es un estafador!!");
@@ -64,6 +70,20 @@ public class ClienteServiceImpl implements IClienteService {
         );
 
         return clienteResponse;
+    }
+
+    @CircuitBreaker(name = "validarclienteCB", fallbackMethod = "fallValidarclienteCB")
+    @Retry(name = "validarclienteRetry")
+    public ClienteCheckResponse validarCliente(Cliente clienteResponse) {
+        return clienteCheckClient.validarCliente(clienteResponse.getId());
+    }
+
+    public ClienteCheckResponse fallValidarclienteCB(Cliente clienteResponse, MethodArgumentNotValidException e) throws MethodArgumentNotValidException {
+        FieldError fieldError = new FieldError("validarcliente", "validarcliente","Servicio no disponible");
+        BindingResult result = new BeanPropertyBindingResult(null, null);
+        result.addError(fieldError);
+        MethodArgumentNotValidException exception = new MethodArgumentNotValidException(null, result);
+        throw exception;
     }
 
     public Cliente modificarCliente(ClienteRequest clienteRequest) {
