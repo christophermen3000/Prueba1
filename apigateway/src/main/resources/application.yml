@@ -1,6 +1,8 @@
 spring:
   application:
     name: apigateway
+  config:
+    import: "optional:configserver:"
   cloud:
     config:
       enabled: true
