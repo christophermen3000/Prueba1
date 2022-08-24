@@ -19,7 +19,5 @@ admin-paths:
       method: "PUT"
     - uri: "/api/v1/cliente/{1}[1-9]+[0-9]*"
       method: "DELETE"
-    - uri: "/api/v1/notificacion"
-      method: "POST"
     - uri: "api/v1/cliente-check/{1}[1-9]+[0-9]*"
       method: "GET"
