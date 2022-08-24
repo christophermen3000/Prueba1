@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class RequestDto {
 
     private String uri;
-    private String metodo;
+    private String method;
 }

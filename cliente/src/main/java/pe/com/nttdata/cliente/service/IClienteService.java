@@ -12,7 +12,7 @@ public interface IClienteService {
     public Cliente registrarCliente(Cliente cliente);
     public String validarCliente(Cliente cliente);
     public void registrarNotificacion(Cliente cliente);
-    public Cliente modificarCliente(ClienteRequest clienteRequest);
+    public Cliente modificarCliente(Cliente cliente);
     public int eliminarCliente(Integer id);
     public Cliente obtenerCliente(Integer id);
     public List<Cliente> listarClientesPorNombre(String nombre);

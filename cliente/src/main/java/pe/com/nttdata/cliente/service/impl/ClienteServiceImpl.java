@@ -86,15 +86,15 @@ public class ClienteServiceImpl implements IClienteService {
         return "NO_OK";
     }
 
-    public Cliente modificarCliente(ClienteRequest clienteRequest) {
-        Cliente cliente = Cliente.builder()
+    public Cliente modificarCliente(Cliente cliente) {
+        /*Cliente cliente = Cliente.builder()
                 .id(clienteRequest.id())
                 .nombre(clienteRequest.nombre())
                 .apellidoPaterno(clienteRequest.apellidoPaterno())
                 .apellidoMaterno(clienteRequest.apellidoMaterno())
                 .email(clienteRequest.email())
                 .fechaNacimiento(clienteRequest.fechaNacimiento())
-                .build();
+                .build();*/
         return clienteDao.save(cliente);
     }
 

@@ -17,10 +17,14 @@ spring:
           uri: lb://validarcliente
           predicates:
             - Path=/api/v1/cliente-check/**
+          filters:
+            - AutorizacionFilter
         - id: autenticacion
           uri: lb://autenticacion
           predicates:
             - Path=/api/v1/autenticacion/**
+          filters:
+            - AutorizacionFilter
 
 eureka:
   client:

@@ -57,10 +57,10 @@ public class ClienteController {
     }
 
     @PutMapping
-    public ResponseEntity<?> modificarCliente(@RequestBody ClienteRequest clienteRequest) {
-        log.info("modificar datos de cliente {}", clienteRequest);
-        clienteService.modificarCliente(clienteRequest);
-        return new ResponseEntity<ClienteRequest>(clienteRequest, HttpStatus.OK);
+    public ResponseEntity<?> modificarCliente(@RequestBody Cliente cliente) {
+        log.info("modificar datos de cliente {}", cliente);
+        clienteService.modificarCliente(cliente);
+        return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
