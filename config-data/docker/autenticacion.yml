@@ -1,9 +1,9 @@
 server:
-  port: 8082
+  port: 8084
 spring:
   datasource:
     password: 1234
-    url: jdbc:postgresql://postgres:5432/notificacion
+    url: jdbc:postgresql://postgres:5432/autenticacion
     username: nttdata
   jpa:
     database : POSTGRESQL
@@ -17,8 +17,7 @@ spring:
             non_contextual_creation: true
   zipkin:
     base-url: http://zipkin:9411
-  rabbitmq:
-    addresses: rabbitmq:5672
+
 eureka:
   client:
     service-url:
@@ -26,10 +25,3 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     enabled: false
-rabbitmq:
-  exchanges:
-    internal: internal.exchange
-  queues:
-    notification: notification.queue
-  routing-keys:
-    internal-notification: internal.notification.routing-key

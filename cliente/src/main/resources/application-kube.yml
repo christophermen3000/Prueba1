@@ -2,7 +2,7 @@ spring:
   application:
     name: cliente
   config:
-    import: "optional:configserver:"
+    import: "optional:configserver:http://config-server:8090"
   cloud:
     config:
       enabled: true

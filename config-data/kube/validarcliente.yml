@@ -1,8 +1,6 @@
 server:
   port: 8081
 spring:
-  application:
-    name: validarcliente
   datasource:
     password: 1234
     url: jdbc:postgresql://postgres:5432/clientecheck
