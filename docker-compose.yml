@@ -124,12 +124,12 @@ services:
     networks:
       - spring
       - postgres
-      - apigateway
     depends_on:
       - zipkin
       - postgres
       - config-server
       - eureka-server
+      - apigateway
   config-server:
     image: christophermen/config-server:latest
     container_name: config-server
