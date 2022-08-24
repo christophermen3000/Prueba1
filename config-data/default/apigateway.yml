@@ -11,6 +11,8 @@ spring:
           uri: lb://cliente
           predicates:
             - Path=/api/v1/cliente/**
+          filters:
+            - AutorizacionFilter
         - id: validarcliente
           uri: lb://validarcliente
           predicates:
@@ -19,8 +21,6 @@ spring:
           uri: lb://autenticacion
           predicates:
             - Path=/api/v1/autenticacion/**
-          filters:
-            - AutorizacionFilter
 
 eureka:
   client:
