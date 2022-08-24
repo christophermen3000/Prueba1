@@ -11,7 +11,7 @@ import pe.com.nttdata.autenticacion.model.Usuario;
 import pe.com.nttdata.autenticacion.service.UsuarioService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("api/v1/autenticacion")
 public class UsuarioController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class UsuarioController {
         return ResponseEntity.ok(tokenDto);
     }
 
-    @PostMapping("/validate")
+    @PostMapping("/validar")
     public ResponseEntity<TokenDto> validate(@RequestParam String token, @RequestBody RequestDto dto){
         TokenDto tokenDto = usuarioService.validate(token, dto);
         if(tokenDto == null)
@@ -33,7 +33,7 @@ public class UsuarioController {
         return ResponseEntity.ok(tokenDto);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/crear")
     public ResponseEntity<Usuario> create(@RequestBody NuevoUsuarioDto dto){
         Usuario usuario = usuarioService.save(dto);
         if(usuario == null)

@@ -53,17 +53,17 @@ services:
 #      - spring
 #    depends_on:
 #      - zipkin
-#  apigateway:
-#    image: christophermen/apigateway:latest
-#    container_name: apigateway
-#    ports:
-#      - "8083:8083"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    networks:
-#      - spring
-#    depends_on:
-#      - zipkin
+  apigateway:
+    image: christophermen/apigateway:latest
+    container_name: apigateway
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      - zipkin
 #      - eureka-server
   cliente:
     image: christophermen/cliente:latest

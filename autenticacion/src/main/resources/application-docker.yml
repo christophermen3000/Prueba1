@@ -7,3 +7,6 @@ spring:
     config:
       enabled: true
       uri: http://config-server:8090
+
+jwt:
+  secret: secret
