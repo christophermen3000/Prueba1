@@ -7,17 +7,3 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8090
-
-jwt:
-  secret: secret
-
-admin-paths:
-  paths:
-    - uri: "/api/v1/cliente"
-      method: "POST"
-    - uri: "/api/v1/cliente"
-      method: "PUT"
-    - uri: "/api/v1/cliente/{1}[1-9]+[0-9]*"
-      method: "DELETE"
-    - uri: "api/v1/cliente-check/{1}[1-9]+[0-9]*"
-      method: "GET"

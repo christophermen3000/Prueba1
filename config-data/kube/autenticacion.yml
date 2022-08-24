@@ -24,4 +24,18 @@ eureka:
       defaultZone: http://eureka-server:8761/eureka
     fetch-registry: true
     register-with-eureka: true
-    enabled: false
+#    enabled: false
+
+jwt:
+  secret: secret
+
+admin-paths:
+  paths:
+    - uri: "/api/v1/cliente"
+      method: "POST"
+    - uri: "/api/v1/cliente"
+      method: "PUT"
+    - uri: "/api/v1/cliente/{1}[1-9]+[0-9]*"
+      method: "DELETE"
+    - uri: "api/v1/cliente-check/{1}[1-9]+[0-9]*"
+      method: "GET"
