@@ -23,7 +23,8 @@ spring:
           uri: lb://autenticacion
           predicates:
             - Path=/api/v1/autenticacion/**
-
+    discovery:
+      enabled: true
 eureka:
   client:
     service-url:
@@ -31,3 +32,5 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
 #    enabled: false
+  instance:
+    prefer-ip-address: true

@@ -26,6 +26,8 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
 #    enabled: false
+  instance:
+    prefer-ip-address: true
 rabbitmq:
   exchanges:
     internal: internal.exchange
