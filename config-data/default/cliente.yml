@@ -65,3 +65,5 @@ resilience4j:
         registerHealthIndicator: true
         maxRetryAttempts: 5
         waitDuration: 5s
+
+topic: notificacionkafka

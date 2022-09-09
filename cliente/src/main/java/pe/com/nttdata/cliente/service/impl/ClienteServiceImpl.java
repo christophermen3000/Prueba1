@@ -4,6 +4,8 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 //import org.springframework.web.client.RestTemplate;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -15,6 +17,7 @@ import pe.com.nttdata.cliente.dao.IClienteDao;
 import pe.com.nttdata.cliente.model.Cliente;
 import pe.com.nttdata.cliente.service.IClienteService;
 import pe.com.nttdata.clientefeign.notificacion.NotificacionRequest;
+import pe.com.nttdata.clientefeign.notificacionkafka.NotificacionKafkaRequest;
 import pe.com.nttdata.clientefeign.validar.cliente.ClienteCheckClient;
 import pe.com.nttdata.clientefeign.validar.cliente.ClienteCheckResponse;
 import pe.com.nttdata.clientequeues.rabbitmq.RabbitMQMessageProducer;
@@ -30,6 +33,10 @@ public class ClienteServiceImpl implements IClienteService {
     //private final RestTemplate restTemplate;
     private final ClienteCheckClient clienteCheckClient;
     private final RabbitMQMessageProducer rabbitMQMessageProducer;
+    private KafkaTemplate<String, NotificacionKafkaRequest> kafkaTemplate;
+
+    @Value("${topics}")
+    private String topic;
 
     public List<Cliente> listarClientes() {
         return clienteDao.findAll();
@@ -79,6 +86,18 @@ public class ClienteServiceImpl implements IClienteService {
                 notificacionRequest,
                 "internal.exchange",
                 "internal.notification.routing-key"
+        );
+    }
+
+    public void registrarNotificacionKafka(Cliente cliente) {
+        NotificacionKafkaRequest notificacionKafkaRequest = new NotificacionKafkaRequest(
+                cliente.getId(),
+                cliente.getEmail(),
+                String.format("Hola %s, bienvenidos a NTTData...",
+                        cliente.getNombre())
+        );
+        kafkaTemplate.send(
+                topic, notificacionKafkaRequest
         );
     }
 
