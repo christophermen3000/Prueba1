@@ -19,7 +19,7 @@ spring:
     base-url: http://zipkin:9411
   kafka:
     consumer:
-      bootstrap-servers: notificacionkafka:9092
+      bootstrap-servers: localhost:9092
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       group-id: notificacion
