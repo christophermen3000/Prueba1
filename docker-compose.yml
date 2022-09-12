@@ -139,7 +139,22 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
       - spring
-
+  notificacionkafka:
+    image: christophermen/notificacionkafka:latest
+    container_name: notificacionkafka
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - postgres
+      - rabbitmq
+      - config-server
+      - eureka-server
 
 networks:
   postgres:

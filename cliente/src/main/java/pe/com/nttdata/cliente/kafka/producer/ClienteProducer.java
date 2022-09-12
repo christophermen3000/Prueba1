@@ -21,7 +21,7 @@ public class ClienteProducer {
     }
 
     public void enviarMensaje(NotificacionKafkaRequest notificacionKafkaRequest){
-        log.info("Notificación Kafka producer: => %s", notificacionKafkaRequest.toString());
+        log.info("Notificación Kafka producer: {}", notificacionKafkaRequest);
 
         Message<NotificacionKafkaRequest> message = MessageBuilder
                 .withPayload(notificacionKafkaRequest)

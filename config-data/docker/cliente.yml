@@ -24,6 +24,13 @@ spring:
     base-url: http://zipkin:9411
   rabbitmq:
     addresses: rabbitmq:5672
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    topic:
+      name: notificacionkafka
 eureka:
   client:
     service-url:

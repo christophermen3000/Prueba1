@@ -1,0 +1,37 @@
+server:
+  port: 8085
+spring:
+  datasource:
+    password: 1234
+    url: jdbc:postgresql://postgres:5431/notificacionkafka
+    username: nttdata
+  jpa:
+    database : POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  zipkin:
+    base-url: http://zipkin:9411
+  kafka:
+    consumer:
+      bootstrap-servers: notificacionkafka:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: notificacion
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
+    topic:
+      name: notificacionkafka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+#    enabled: false

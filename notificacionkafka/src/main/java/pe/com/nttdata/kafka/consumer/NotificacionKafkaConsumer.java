@@ -19,7 +19,7 @@ public class NotificacionKafkaConsumer {
             groupId = "${spring.kafka.consumer.group-id}"
     )
     private void consumer(NotificacionKafkaRequest notificacionKafkaRequest){
-        log.info("Notificación Kafka consumer: => %s", notificacionKafkaRequest.toString());
+        log.info("Notificación Kafka consumer: {}", notificacionKafkaRequest);
         notificacionService.enviarNotificacion(notificacionKafkaRequest);
     }
 }
