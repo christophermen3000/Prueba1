@@ -1,4 +1,4 @@
-package pe.com.nttdata.kafka.config;
+package pe.com.nttdata.cliente.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,11 +8,11 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class KafkaTopicConfig {
+    @Value("${spring.kafka.topic.name}")
+    private String topicName;
 
-    @Value("${topics}")
-    private String topic;
     @Bean
-    public NewTopic nttdataTopic(){
-        return TopicBuilder.name(topic).build();
+    public NewTopic topic(){
+        return TopicBuilder.name(topicName).build();
     }
 }
